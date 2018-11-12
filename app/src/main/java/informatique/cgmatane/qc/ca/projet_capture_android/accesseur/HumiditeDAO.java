@@ -17,16 +17,10 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class HumiditeDAO {
 
-    public static String URL_RAPPORTER_HUMIDITE = "http://localhost/station-meteo/humidites";
+    public static String URL_RAPPORTER_HUMIDITE = "http://54.39.145.59/projet-capture-serveur-php/humidites/jour/1534377600/1534463940";
 
     protected DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss", Locale.CANADA);
 
-    public static final String PREFS = "comp1";
-    public static SharedPreferences pref1;
-    public static final String moyenne = "moyenne";
-    public static final String maximum = "maximum";
-    public static final String minimum = "minimum";
-    public static final String date = "date";
 
     public static Humidite rapporterHumidite()
     {
@@ -42,9 +36,10 @@ public class HumiditeDAO {
             String minimum = ServiceWeb.lireBalise(element,"minimum");
             String date = ServiceWeb.lireBalise(element,"date");
 
-            Humidite humidite = new Humidite(moyenne, maximum, minimum, date);
+            System.out.print("MOYENNE " + moyenne);
 
-			return humidite;
+
+            return new Humidite(moyenne, maximum, minimum, date);
 
         }
         return null;

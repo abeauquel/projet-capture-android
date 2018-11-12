@@ -18,8 +18,10 @@ import informatique.cgmatane.qc.ca.projet_capture_android.modele.Humidite;
 public class VuePrincipale extends AppCompatActivity {
 
     private HumiditeDAO humiditeDAO;
+    private Humidite humidite;
 
     public SharedPreferences sharedPref;
+    public static final String HUMDITE_PREFERENCES = "donneeMeteo";
     public static final String moyenne = "moyenne";
     public static final String maximum = "maximum";
     public static final String minimum = "minimum";
@@ -38,14 +40,16 @@ public class VuePrincipale extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.barrre_navigation);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("MétéoQC");
-        toolbar.setSubtitle("Humidite :");
-
 
         textMoyenne = findViewById(R.id.retroactionMoyenne);
         textMax = findViewById(R.id.retroactionMax);
         textMin = findViewById(R.id.retroactionMin);
 
         humiditeDAO = new HumiditeDAO();
+
+        humidite = HumiditeDAO.rapporterHumidite();
+
+//        System.out.print(humidite.getMoyenne());
 
         afficherHumidite();
         afficherDate();
@@ -65,17 +69,20 @@ public class VuePrincipale extends AppCompatActivity {
     {
         enregistrerDonneeJour();
         textMoyenne.setText(sharedPref.getString(moyenne,"moyenne"));
+        textMax.setText(sharedPref.getString(maximum,"maximum"));
+        textMin.setText(sharedPref.getString(minimum,"minimum"));
     }
 
     public void enregistrerDonneeJour()
     {
-        Humidite humidite = HumiditeDAO.rapporterHumidite();
+//        humidite = humiditeDAO.rapporterHumidite();
 
-        sharedPref = getApplicationContext().getSharedPreferences("informatique.cgmatane.qc.ca.projet_capture_android", MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putString(moyenne, humidite.getMoyenne()).apply();
-        editor.putString(maximum, humidite.getMaximum()).apply();
-        editor.putString(minimum, humidite.getMinimum()).apply();
+        sharedPref = getSharedPreferences(HUMDITE_PREFERENCES, MODE_PRIVATE);
+        SharedPreferences.Editor editeur = sharedPref.edit();
+        editeur.putString("moyenne", humidite.getMoyenne());
+        editeur.putString("maximum", humidite.getMaximum());
+        editeur.putString("minimum", humidite.getMinimum());
+        editeur.apply();
 
     }
 }
