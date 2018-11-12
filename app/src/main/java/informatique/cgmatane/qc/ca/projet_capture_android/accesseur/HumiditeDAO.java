@@ -1,20 +1,42 @@
 package informatique.cgmatane.qc.ca.projet_capture_android.accesseur;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 import informatique.cgmatane.qc.ca.projet_capture_android.modele.Humidite;
 
 public class HumiditeDAO {
 
-    public ArrayList<Humidite> listerHumidite()
+    public static String URL_RAPPORTER_HUMIDITE = "http://localhost/station-meteo/humidite";
+    protected DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss", Locale.CANADA);
+
+
+    public Humidite rapporterHumidite(int numero)
     {
-        ArrayList<Humidite> listeHumidite = new ArrayList<Humidite>();
+        String xml = ServiceWeb.consommerService(URL_RAPPORTER_HUMIDITE + numero);
 
-        listeHumidite.add(new Humidite(12.5,20,6, LocalDateTime.now()));
-        listeHumidite.add(new Humidite(23.1,40.1,-1.3, LocalDateTime.now()));
-        listeHumidite.add(new Humidite(5,10,0, LocalDateTime.now()));
+        if(xml != null)
+        {
+			Document document = ServiceWeb.parserXML(xml);
+            if(document == null) return null;
+            Element element = document.getDocumentElement();
+            String moyenne = ServiceWeb.lireBalise(element,"moyenne");
+            String maximum = ServiceWeb.lireBalise(element,"maximum");
+            String minimum = ServiceWeb.lireBalise(element,"minimum");
+            String date = ServiceWeb.lireBalise(element,"date");
 
-        return listeHumidite;
+            Humidite humidite = new Humidite(moyenne,maximum, minimum, date);
+
+			return humidite;
+
+        }
+        return null;
     }
 }
