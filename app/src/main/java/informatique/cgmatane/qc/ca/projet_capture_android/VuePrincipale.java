@@ -47,9 +47,7 @@ public class VuePrincipale extends AppCompatActivity {
 
         humiditeDAO = new HumiditeDAO();
 
-        humidite = HumiditeDAO.rapporterHumidite();
-
-//        System.out.print(humidite.getMoyenne());
+        HumiditeDAO.humiditeSelonURL();
 
         afficherHumidite();
         afficherDate();
@@ -79,9 +77,9 @@ public class VuePrincipale extends AppCompatActivity {
 
         sharedPref = getSharedPreferences(HUMDITE_PREFERENCES, MODE_PRIVATE);
         SharedPreferences.Editor editeur = sharedPref.edit();
-        editeur.putString("moyenne", humidite.getMoyenne());
-        editeur.putString("maximum", humidite.getMaximum());
-        editeur.putString("minimum", humidite.getMinimum());
+        editeur.putLong("moyenne", humidite.getMoyenne());
+        editeur.putLong("maximum", humidite.getMaximum());
+        editeur.putLong("minimum", humidite.getMinimum());
         editeur.apply();
 
     }

@@ -2,9 +2,12 @@ package informatique.cgmatane.qc.ca.projet_capture_android.accesseur;
 
 import org.xml.sax.SAXException;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.StringBufferInputStream;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
@@ -47,7 +50,8 @@ public class ServiceWeb {
         String xml = null;
         try {
             URL urlServiceMeteo = new URL(url);
-            URLConnection serviceMeteo = urlServiceMeteo.openConnection();
+            HttpURLConnection serviceMeteo = (HttpURLConnection) urlServiceMeteo.openConnection();
+            int responseCode = serviceMeteo.getResponseCode();
             InputStream fluxDonnee = serviceMeteo.getInputStream();
 
             Scanner lecteur = new Scanner(fluxDonnee).useDelimiter("\\A");
@@ -61,6 +65,34 @@ public class ServiceWeb {
             e.printStackTrace();
         }
         return null;
+
+//        BufferedReader in = null;
+//        try {
+//            URL urlService = new URL(url);
+//
+//            in = new BufferedReader(
+//                    new InputStreamReader(
+//                            url.openStream(),"UTF-8"));//in most cases there is utf 8
+//
+//            String inputLine;
+//            StringBuilder builder = new StringBuilder();
+//            while ((inputLine = in.readLine()) != null)
+//                builder.append(inputLine);
+//            String urlContent = builder.toString();
+//            return urlContent;
+//            // process your received data somehow
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        } finally {
+//            if (in != null) {
+//                try {
+//                    in.close();
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }
+//        return null;
     }
 
 }

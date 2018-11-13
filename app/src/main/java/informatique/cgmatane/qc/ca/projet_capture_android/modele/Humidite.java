@@ -2,16 +2,14 @@ package informatique.cgmatane.qc.ca.projet_capture_android.modele;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 
 public class Humidite
 {
-    private String moyenne;
-    private String maximum;
-    private String minimum;
+    private long moyenne;
+    private long maximum;
+    private long minimum;
 
     protected DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss", Locale.CANADA);
     private String date;
@@ -19,34 +17,34 @@ public class Humidite
 //    public static final SimpleDateFormat formatDate = new SimpleDateFormat("yyyy/MM/dd - HH:mm", Locale.CANADA_FRENCH);
 
 
-    public Humidite(String moyenne, String maximum, String minimum, String date) {
+    public Humidite(long moyenne, long maximum, long minimum, String date) {
         this.moyenne = moyenne;
         this.maximum = maximum;
         this.minimum = minimum;
         this.date = date;
     }
 
-    public String getMoyenne() {
+    public long getMoyenne() {
         return moyenne;
     }
 
-    public void setMoyenne(String moyenne) {
+    public void setMoyenne(long moyenne) {
         this.moyenne = moyenne;
     }
 
-    public String getMaximum() {
+    public long getMaximum() {
         return maximum;
     }
 
-    public void setMaximum(String maximum) {
+    public void setMaximum(long maximum) {
         this.maximum = maximum;
     }
 
-    public String getMinimum() {
+    public long getMinimum() {
         return minimum;
     }
 
-    public void setMinimum(String minimum) {
+    public void setMinimum(long minimum) {
         this.minimum = minimum;
     }
 
@@ -58,14 +56,4 @@ public class Humidite
         this.date = date;
     }
 
-    public HashMap<String, String> obtenirHumiditePourAdapteur()
-    {
-        HashMap<String, String> humiditePourAdapteur = new HashMap<String,String>();
-        humiditePourAdapteur.put("moyenne", "" + this.moyenne);
-        humiditePourAdapteur.put("maximum", "" + this.maximum);
-        humiditePourAdapteur.put("minimum", "" + this.minimum);
-        humiditePourAdapteur.put("date", "" + this.date);
-
-        return humiditePourAdapteur;
-    }
 }
