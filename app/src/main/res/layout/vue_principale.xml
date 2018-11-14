@@ -97,11 +97,9 @@
         android:layout_width="166dp"
         android:layout_height="73dp"
         android:layout_below="@+id/labelMax"
-        android:layout_alignParentBottom="true"
         android:layout_marginTop="52dp"
         android:layout_marginEnd="47dp"
         android:layout_marginRight="47dp"
-        android:layout_marginBottom="79dp"
         android:layout_toStartOf="@+id/retroactionMin"
         android:layout_toLeftOf="@+id/retroactionMin"
         android:text="Min:"
@@ -114,12 +112,25 @@
         android:layout_below="@+id/retroactionMax"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
         android:layout_marginTop="55dp"
         android:layout_marginEnd="25dp"
         android:layout_marginRight="25dp"
-        android:layout_marginBottom="82dp"
         android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/message"
+        android:layout_width="339dp"
+        android:layout_height="50dp"
+        android:layout_below="@+id/retroactionMin"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="18dp"
+        android:layout_marginEnd="26dp"
+        android:layout_marginRight="26dp"
+        android:layout_marginBottom="6dp"
+        android:textSize="24sp" />
+
 
 
 

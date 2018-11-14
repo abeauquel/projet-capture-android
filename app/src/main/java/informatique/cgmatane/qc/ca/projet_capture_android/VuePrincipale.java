@@ -29,11 +29,14 @@ public class VuePrincipale extends AppCompatActivity {
     public static final String maximum = "maximum";
     public static final String minimum = "minimum";
     public static final String date = "date";
+    public static boolean connecte = true;
+    public static int temps;
 
     protected TextView textMoyenne;
     protected TextView labeltextMoyenne;
     protected TextView labeltextMax;
     protected TextView textMax;
+    protected TextView textMessage;
     protected TextView labeltextMin;
     protected TextView textMin;
 
@@ -55,8 +58,9 @@ public class VuePrincipale extends AppCompatActivity {
         textMax = findViewById(R.id.retroactionMax);
         labeltextMin = findViewById(R.id.labelMin);
         textMin = findViewById(R.id.retroactionMin);
-
+        textMessage = findViewById(R.id.message);
         humiditeDAO = new HumiditeDAO();
+        temps = 0;
         Timer t = new Timer();
         t.schedule(new TimerTask() {
             @Override
@@ -64,8 +68,12 @@ public class VuePrincipale extends AppCompatActivity {
                 HumiditeDAO.modificationURL();
                 humidite = HumiditeDAO.humiditeSelonURL();
                 if (humidite != null) {
+                    temps = 0;
                     afficherHumidite();
                 }else{
+                    connecte = false;
+                    textMessage.setText("Déconnecté depuis "+temps+" secondes");
+                    temps = temps +5;
                     textMoyenne.setText("Pas de données");
                     textMin.setText("Pas de données");
                     textMax.setText("Pas de données");

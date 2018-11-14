@@ -28,7 +28,7 @@ public class HumiditeDAO {
     private static Humidite humidite;
     private static String url;
 
-//    public static String URL_RAPPORTER_HUMIDITE = "http://54.39.145.59/projet-capture-serveur-php/humidites/jour/1534377600/1534463940";
+    /*public static String URL_RAPPORTER_HUMIDITE = "http://54.39.145.59/projet-capture-serveur-php/humidites/jour/1282164444/1566161244";*/
 
 
 //    public static Humidite rapporterHumidite()
@@ -112,7 +112,7 @@ public class HumiditeDAO {
             e.printStackTrace();
         }
 
-        url += "/" + echantillonnage + "/" + (dateDebutFormat.getTime()/1000) + "/" + (dateFinFormat.getTime()/1000);
+        url += "/" + echantillonnage + "/" + ((dateDebutFormat.getTime()/1000)-24*3600) + "/" + (dateFinFormat.getTime()/1000);
 
         System.out.println(url);
 
