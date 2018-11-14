@@ -26,8 +26,9 @@ public class HumiditeDAO {
 
     private static Connexion connexion;
     private static Humidite humidite;
+    private static String url;
 
-    public static String URL_RAPPORTER_HUMIDITE = "http://54.39.145.59/projet-capture-serveur-php/humidites/jour/1534377600/1534463940";
+//    public static String URL_RAPPORTER_HUMIDITE = "http://54.39.145.59/projet-capture-serveur-php/humidites/jour/1534377600/1534463940";
 
 
 //    public static Humidite rapporterHumidite()
@@ -63,8 +64,7 @@ public class HumiditeDAO {
             DocumentBuilderFactory f =
                     DocumentBuilderFactory.newInstance();
             DocumentBuilder b = f.newDocumentBuilder();
-            Document doc = b.parse(URL_RAPPORTER_HUMIDITE);
-
+            Document doc = b.parse(url);
             doc.getDocumentElement().normalize();
             Element element = doc.getDocumentElement();
             System.out.println ("Root element: " +
@@ -94,15 +94,15 @@ public class HumiditeDAO {
 
     public static void modificationURL()
     {
-        String url = connexion.URL_BASE;
+        url = connexion.URL_BASE;
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.CANADA);
         Date dateJour = new Date();
 
-        String echantillonnage = "jour";
+        String echantillonnage = "heure";
         String dateDebut = dateFormat.format(dateJour);
         String dateFin = dateFormat.format(dateJour);
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         Date dateDebutFormat = null;
         Date dateFinFormat = null;
         try {
@@ -116,6 +116,6 @@ public class HumiditeDAO {
 
         System.out.println(url);
 
-//        humiditeSelonURL(url);
+
     }
 }

@@ -55,33 +55,36 @@ public class VuePrincipale extends AppCompatActivity {
         textMin = findViewById(R.id.retroactionMin);
 
         humiditeDAO = new HumiditeDAO();
-
+        HumiditeDAO.modificationURL();
         humidite = HumiditeDAO.humiditeSelonURL();
-
-        afficherHumidite();
+        if (humidite != null) {
+            afficherHumidite();
+        }else{
+            textMoyenne.setText("Pas de données");
+            textMin.setText("Pas de données");
+            textMax.setText("Pas de données");
+        }
         afficherDate();
+
     }
 
-    public void afficherDate()
-    {
+    public void afficherDate() {
         // afficher la date du jour
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.CANADA);
         Date dateJour = new Date();
 
-        TextView vueRetroactionDate = (TextView)findViewById(R.id.retroactionDate);
+        TextView vueRetroactionDate = (TextView) findViewById(R.id.retroactionDate);
         vueRetroactionDate.setText("Date : " + dateFormat.format(dateJour));
     }
 
-    public void afficherHumidite()
-    {
+    public void afficherHumidite() {
         enregistrerDonneeJour();
         textMoyenne.setText(String.valueOf(sharedPref.getLong(moyenne, 0)));
         textMax.setText(String.valueOf(sharedPref.getLong(maximum, 0)));
         textMin.setText(String.valueOf(sharedPref.getLong(minimum, 0)));
     }
 
-    public void enregistrerDonneeJour()
-    {
+    public void enregistrerDonneeJour() {
 //        humidite = humiditeDAO.rapporterHumidite();
 
         sharedPref = getSharedPreferences(HUMDITE_PREFERENCES, MODE_PRIVATE);
