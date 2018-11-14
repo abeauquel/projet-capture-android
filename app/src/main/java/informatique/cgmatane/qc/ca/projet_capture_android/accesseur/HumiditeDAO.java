@@ -73,15 +73,16 @@ public class HumiditeDAO {
             System.out.println("Moyenne : " + element.getElementsByTagName(connexion.CHAMP_MOYENNE).item(0).getTextContent());
             System.out.println("Date : " + element.getElementsByTagName(connexion.CHAMP_DATE).item(0).getTextContent());
 
-            long moyenne = Long.parseLong(element.getElementsByTagName(connexion.CHAMP_MOYENNE).item(0).getTextContent());
-            long max = Long.parseLong(element.getElementsByTagName(connexion.CHAMP_MAX).item(0).getTextContent());
-            long min = Long.parseLong(element.getElementsByTagName(connexion.CHAMP_MIN).item(0).getTextContent());
+            String moyenne = element.getElementsByTagName(connexion.CHAMP_MOYENNE).item(0).getTextContent();
+            String max = element.getElementsByTagName(connexion.CHAMP_MAX).item(0).getTextContent();
+            String min = element.getElementsByTagName(connexion.CHAMP_MIN).item(0).getTextContent();
             String date = element.getElementsByTagName(connexion.CHAMP_DATE).item(0).getTextContent();
 
             humidite = new Humidite(moyenne, max, min, date);
 
         } catch (Exception e) {
             e.printStackTrace();
+            return null;
         }
 
         return humidite;

@@ -74,6 +74,7 @@ public class VuePrincipale extends AppCompatActivity {
                 humidite = HumiditeDAO.humiditeSelonURL();
                 if (humidite != null) {
                     temps = 0;
+                    textMessage.setText("");
                     afficherHumidite();
                 }else{
                     connecte = false;
@@ -100,9 +101,9 @@ public class VuePrincipale extends AppCompatActivity {
 
     public void afficherHumidite() {
         enregistrerDonneeJour();
-        textMoyenne.setText(String.valueOf(sharedPref.getLong(moyenne, 0)));
-        textMax.setText(String.valueOf(sharedPref.getLong(maximum, 0)));
-        textMin.setText(String.valueOf(sharedPref.getLong(minimum, 0)));
+        textMoyenne.setText(sharedPref.getString(moyenne, "moyenne"));
+        textMax.setText(sharedPref.getString(maximum, "maximum"));
+        textMin.setText(sharedPref.getString(minimum, "minimum"));
     }
 
     public void enregistrerDonneeJour() {
@@ -110,9 +111,9 @@ public class VuePrincipale extends AppCompatActivity {
 
         sharedPref = getSharedPreferences(HUMDITE_PREFERENCES, MODE_PRIVATE);
         SharedPreferences.Editor editeur = sharedPref.edit();
-        editeur.putLong("moyenne", humidite.getMoyenne());
-        editeur.putLong("maximum", humidite.getMaximum());
-        editeur.putLong("minimum", humidite.getMinimum());
+        editeur.putString("moyenne", humidite.getMoyenne());
+        editeur.putString("maximum", humidite.getMaximum());
+        editeur.putString("minimum", humidite.getMinimum());
         editeur.apply();
 
     }
