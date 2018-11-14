@@ -6,6 +6,7 @@ import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.widget.TextView;
 
 import java.text.DateFormat;
@@ -23,10 +24,6 @@ public class VuePrincipale extends AppCompatActivity {
 
     public SharedPreferences sharedPref;
     public static final String HUMDITE_PREFERENCES = "donneeMeteo";
-    public static final String moyenne = "moyenne";
-    public static final String maximum = "maximum";
-    public static final String minimum = "minimum";
-    public static final String date = "date";
 
     protected TextView textMoyenne;
     protected TextView labeltextMoyenne;
@@ -42,6 +39,12 @@ public class VuePrincipale extends AppCompatActivity {
         setContentView(R.layout.vue_principale);
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
+
+        // https://stackoverflow.com/questions/22395417/error-strictmodeandroidblockguardpolicy-onnetwork
+        if (android.os.Build.VERSION.SDK_INT > 9) {
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+        }
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.barrre_navigation);
         setSupportActionBar(toolbar);
@@ -90,6 +93,7 @@ public class VuePrincipale extends AppCompatActivity {
         sharedPref = getSharedPreferences(HUMDITE_PREFERENCES, MODE_PRIVATE);
         SharedPreferences.Editor editeur = sharedPref.edit();
         editeur.putLong("moyenne", humidite.getMoyenne());
+        Log.d("CORRECTIONERREUR", "moyenne enregistrement " + humidite.getMoyenne());
         editeur.putLong("maximum", humidite.getMaximum());
         editeur.putLong("minimum", humidite.getMinimum());
         editeur.apply();

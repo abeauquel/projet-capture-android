@@ -1,5 +1,7 @@
 package informatique.cgmatane.qc.ca.projet_capture_android.accesseur;
 
+import android.util.Log;
+
 import org.xml.sax.SAXException;
 
 import java.io.BufferedReader;
@@ -20,6 +22,40 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 public class ServiceWeb {
+
+    String xml = null ;
+
+    protected String doInBackground(String...parametres){
+        String url = parametres[0];
+        String delimiteur = parametres[1];
+
+        xml = recupererXML(url, delimiteur);
+
+        if (null == xml){
+            return null;
+        }
+        return xml;
+    }
+
+    private String recupererXML(String url, String delimiteur)
+    {
+        try {
+            URL urlXML = new URL(url);
+            InputStream flux = urlXML.openConnection().getInputStream();
+            Scanner scanner = new Scanner(flux).useDelimiter(delimiteur);
+            xml = scanner.next() + delimiteur;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return xml;
+    }
+
+
+
+
+
+
+
 
 
     public static String lireBalise(Element element, String balise)
