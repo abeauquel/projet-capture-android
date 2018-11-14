@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -65,7 +66,11 @@ public class VuePrincipale extends AppCompatActivity {
         t.schedule(new TimerTask() {
             @Override
             public void run() {
-                HumiditeDAO.modificationURL();
+                try {
+                    HumiditeDAO.modificationURL();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
                 humidite = HumiditeDAO.humiditeSelonURL();
                 if (humidite != null) {
                     temps = 0;
@@ -74,9 +79,9 @@ public class VuePrincipale extends AppCompatActivity {
                     connecte = false;
                     textMessage.setText("Déconnecté depuis "+temps+" secondes");
                     temps = temps +5;
-                    textMoyenne.setText("Pas de données");
+                    /*textMoyenne.setText("Pas de données");
                     textMin.setText("Pas de données");
-                    textMax.setText("Pas de données");
+                    textMax.setText("Pas de données");*/
                 }
                 afficherDate();            }
         }, 0, 5000);

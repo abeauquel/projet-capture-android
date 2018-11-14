@@ -8,11 +8,13 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.TimeZone;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -55,19 +57,16 @@ public class HumiditeDAO {
 //    }
 
 
-
-    public static Humidite humiditeSelonURL()
-    {
+    public static Humidite humiditeSelonURL() {
         connexion = new Connexion();
-        try
-        {
+        try {
             DocumentBuilderFactory f =
                     DocumentBuilderFactory.newInstance();
             DocumentBuilder b = f.newDocumentBuilder();
             Document doc = b.parse(url);
             doc.getDocumentElement().normalize();
             Element element = doc.getDocumentElement();
-            System.out.println ("Root element: " +
+            System.out.println("Root element: " +
                     doc.getDocumentElement().getNodeName());
 
 
@@ -79,11 +78,9 @@ public class HumiditeDAO {
             long min = Long.parseLong(element.getElementsByTagName(connexion.CHAMP_MIN).item(0).getTextContent());
             String date = element.getElementsByTagName(connexion.CHAMP_DATE).item(0).getTextContent();
 
-            humidite = new Humidite(moyenne,max,min,date);
+            humidite = new Humidite(moyenne, max, min, date);
 
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -91,29 +88,13 @@ public class HumiditeDAO {
     }
 
 
-
-    public static void modificationURL()
-    {
+    public static void modificationURL() throws ParseException {
         url = connexion.URL_BASE;
-        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.CANADA);
         Date dateJour = new Date();
+        long tsi = dateJour.getTime()/1000;
 
-        String echantillonnage = "heure";
-        String dateDebut = dateFormat.format(dateJour);
-        String dateFin = dateFormat.format(dateJour);
-
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        Date dateDebutFormat = null;
-        Date dateFinFormat = null;
-        try {
-            dateDebutFormat = new Date(sdf.parse(dateDebut).getTime());
-            dateFinFormat = new Date(sdf.parse(dateFin).getTime());
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        url += "/" + echantillonnage + "/" + ((dateDebutFormat.getTime()/1000)-24*3600) + "/" + (dateFinFormat.getTime()/1000);
-
+        String echantillonnage = "jour";
+        url += "/" + echantillonnage + "/" + ((tsi - (24 * 3600))) + "/" + (tsi);
         System.out.println(url);
 
 
