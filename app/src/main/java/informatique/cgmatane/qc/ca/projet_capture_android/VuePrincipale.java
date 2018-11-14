@@ -2,6 +2,7 @@ package informatique.cgmatane.qc.ca.projet_capture_android;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -36,6 +37,8 @@ public class VuePrincipale extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.vue_principale);
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.barrre_navigation);
         setSupportActionBar(toolbar);
@@ -47,7 +50,7 @@ public class VuePrincipale extends AppCompatActivity {
 
         humiditeDAO = new HumiditeDAO();
 
-        HumiditeDAO.humiditeSelonURL();
+        humidite = HumiditeDAO.humiditeSelonURL();
 
         afficherHumidite();
         afficherDate();
@@ -66,9 +69,10 @@ public class VuePrincipale extends AppCompatActivity {
     public void afficherHumidite()
     {
         enregistrerDonneeJour();
-        textMoyenne.setText(sharedPref.getString(moyenne,"moyenne"));
-        textMax.setText(sharedPref.getString(maximum,"maximum"));
-        textMin.setText(sharedPref.getString(minimum,"minimum"));
+        
+        textMoyenne.setText(String.valueOf(sharedPref.getLong(moyenne, 0)));
+        textMax.setText(String.valueOf(sharedPref.getLong(maximum, 0)));
+        textMin.setText(String.valueOf(sharedPref.getLong(minimum, 0)));
     }
 
     public void enregistrerDonneeJour()
