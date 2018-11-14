@@ -2,38 +2,20 @@ package informatique.cgmatane.qc.ca.projet_capture_android.accesseur;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
-
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.StringBufferInputStream;
-import java.io.StringReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-
-// https://stackoverflow.com/questions/32153318/httpclient-wont-import-in-android-studio
-// import java.net.URLConnection;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
-import java.util.Scanner;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 
 import informatique.cgmatane.qc.ca.projet_capture_android.VuePrincipale;
 import informatique.cgmatane.qc.ca.projet_capture_android.modele.Humidite;
@@ -48,9 +30,31 @@ public class HumiditeDAO {
 
 //    public static String URL_RAPPORTER_HUMIDITE = "http://54.39.145.59/projet-capture-serveur-php/humidites/jour/1534377600/1534463940";
 
-    protected static ServiceWeb serviceWeb;
-    protected static String xml = "";
-    protected static String delimiteur = "";
+
+//    public static Humidite rapporterHumidite()
+//    {
+//        String xml = ServiceWeb.recuperationDonneMeteo(URL_RAPPORTER_HUMIDITE);
+//
+//        if(xml != null)
+//        {
+//			Document document = ServiceWeb.parserXML(xml);
+//            if(document == null) return null;
+//            Element element = document.getDocumentElement();
+//            String moyenne = ServiceWeb.lireBalise(element,"moyenne");
+//            String maximum = ServiceWeb.lireBalise(element,"maximum");
+//            String minimum = ServiceWeb.lireBalise(element,"minimum");
+//            String date = ServiceWeb.lireBalise(element,"date");
+//
+//            System.out.print("MOYENNE " + moyenne);
+//
+//
+//            return new Humidite(moyenne, maximum, minimum, date);
+//
+//        }
+//        return null;
+//    }
+
+
 
     public static Humidite humiditeSelonURL()
     {
@@ -66,43 +70,24 @@ public class HumiditeDAO {
             System.out.println ("Root element: " +
                     doc.getDocumentElement().getNodeName());
 
-            // https://stackoverflow.com/questions/9856195/how-to-read-an-http-input-stream
-            BufferedReader lecteur = new BufferedReader(new InputStreamReader(connexion.getInputStream()));
-            StringBuffer accumulateur = new StringBuffer();
-            String ligne = "";
-            while ((ligne = lecteur.readLine()) != null) accumulateur.append(ligne);
-            xml = accumulateur.toString();
 
-        } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Moyenne : " + element.getElementsByTagName(connexion.CHAMP_MOYENNE).item(0).getTextContent());
+            System.out.println("Date : " + element.getElementsByTagName(connexion.CHAMP_DATE).item(0).getTextContent());
+
+            long moyenne = Long.parseLong(element.getElementsByTagName(connexion.CHAMP_MOYENNE).item(0).getTextContent());
+            long max = Long.parseLong(element.getElementsByTagName(connexion.CHAMP_MAX).item(0).getTextContent());
+            long min = Long.parseLong(element.getElementsByTagName(connexion.CHAMP_MIN).item(0).getTextContent());
+            String date = element.getElementsByTagName(connexion.CHAMP_DATE).item(0).getTextContent();
+
+            humidite = new Humidite(moyenne,max,min,date);
+
         }
-
-        Log.d("CORRECTIONERREUR", "XML :" + xml);
-
-        try {
-            DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-            InputSource src = new InputSource();
-            src.setCharacterStream(new StringReader(xml));
-            Document doc = builder.parse(src);
-
-            long moyenne = Long.parseLong(doc.getElementsByTagName("moyenne").item(0).getTextContent());
-            Log.d("CORRECTIONERREUR", "moyenne : " + moyenne);
-            long max = Long.parseLong(doc.getElementsByTagName("max").item(0).getTextContent());
-            long min = Long.parseLong(doc.getElementsByTagName("min").item(0).getTextContent());
-//            String date = doc.getElementsByTagName(connexion.CHAMP_DATE).item(0).getTextContent();
-
-            humidite = new Humidite(moyenne, max, min, "2018-02-25");
-
-        } catch (ParserConfigurationException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (SAXException e) {
+        catch (Exception e)
+        {
             e.printStackTrace();
         }
 
         return humidite;
-
     }
 
 
