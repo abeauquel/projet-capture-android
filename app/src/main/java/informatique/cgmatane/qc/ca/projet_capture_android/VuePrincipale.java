@@ -29,7 +29,10 @@ public class VuePrincipale extends AppCompatActivity {
     public static final String date = "date";
 
     protected TextView textMoyenne;
+    protected TextView labeltextMoyenne;
+    protected TextView labeltextMax;
     protected TextView textMax;
+    protected TextView labeltextMin;
     protected TextView textMin;
 
 
@@ -44,8 +47,11 @@ public class VuePrincipale extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("MétéoQC");
 
+        labeltextMoyenne = findViewById(R.id.labelMoyenne);
         textMoyenne = findViewById(R.id.retroactionMoyenne);
+        labeltextMax = findViewById(R.id.labelMax);
         textMax = findViewById(R.id.retroactionMax);
+        labeltextMin = findViewById(R.id.labelMin);
         textMin = findViewById(R.id.retroactionMin);
 
         humiditeDAO = new HumiditeDAO();
@@ -69,7 +75,6 @@ public class VuePrincipale extends AppCompatActivity {
     public void afficherHumidite()
     {
         enregistrerDonneeJour();
-        
         textMoyenne.setText(String.valueOf(sharedPref.getLong(moyenne, 0)));
         textMax.setText(String.valueOf(sharedPref.getLong(maximum, 0)));
         textMin.setText(String.valueOf(sharedPref.getLong(minimum, 0)));
